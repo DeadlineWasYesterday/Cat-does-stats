@@ -40,7 +40,7 @@ p_grid[(likelihood == max(likelihood))]
 
 #Does not scale.
 #Do not run if you love your computer.
-p_grid <- seq(from=0 , to=1 , length.out=1000000000) 
+p_grid <- seq(from=0 , to=1 , length.out=100000000) 
 likelihood <- dbinom(3 , size=5 , prob=p_grid)
 p_grid[(likelihood == max(likelihood))]
 
@@ -85,7 +85,7 @@ ggsave('frames/posterior.jpg')
 
 ##quadratic approximation
 qa <- function(h,c) {
-cat.qa <- map(
+cat.qa <- quap(
   alist(
     H ~ dbinom( H+C ,p) ,  # binomial likelihood
     p ~ dbeta(2,8)     #prior
@@ -162,7 +162,7 @@ for (j in 1:res) {
   ani.record()
   
   plot(p, dnorm(p,df$mean[i], df$sd[i]), 
-       ylim = c(0,5.0), type = 'l', lty = 2, #fix ylim after changing prior 
+       ylim = c(0,3.5), type = 'l', lty = 2, #fix ylim after changing prior 
        lwd = 3, col = col.alpha(2,0.7),
        main=ud[i+1],
        xlab="Probability that cats are innocent",
@@ -189,7 +189,7 @@ ani.replay()
 
 ##Using a normal prior.
 qa <- function(h,c) {
-  cat.qa <- map(
+  cat.qa <- quap(
     alist(
       H ~ dbinom( H+C ,p) ,  # binomial likelihood
       p ~ dnorm(0.2,0.1)     #prior
